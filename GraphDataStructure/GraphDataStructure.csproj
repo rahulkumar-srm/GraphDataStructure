@@ -47,6 +47,8 @@
     <Compile Include="Helper\DijkstraAlgorithm.cs" />
     <Compile Include="Helper\FloydWarshall.cs" />
     <Compile Include="Helper\Graph.cs" />
+    <Compile Include="Helper\GraphColoringProblem.cs" />
+    <Compile Include="Helper\HamiltonianCycle.cs" />
     <Compile Include="Helper\KruskalsAlgo.cs" />
     <Compile Include="Helper\PrimsAlgo.cs" />
     <Compile Include="Program.cs" />

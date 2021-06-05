@@ -18,6 +18,8 @@ namespace GraphDataStructure
                         Environment.NewLine + "5. Dijkstra Algorithm" + //Time Complexity(n^2)
                         Environment.NewLine + "6. All Pairs Shortest Path - FloydWarshall" + //Time Complexity(n^3)
                         Environment.NewLine + "7. Single Source Shortest Path - Bellman Ford" + //Best Case - Time Complexity(n^2), Worst Case - Time Complexity(n^3)
+                        Environment.NewLine + "8. Graph Coloring Problem" + //Time Complexity(n^n)
+                        Environment.NewLine + "9. Hamiltonian Cycle" + //Time Complexity(n!) ~ Time Complexity(O(n^n))
                         Environment.NewLine + "0. Exit"
                     );
 
@@ -74,6 +76,16 @@ namespace GraphDataStructure
                 {
                     BellmanFord bellmanFord = new BellmanFord();
                     bellmanFord.ShortestPathPair();
+                }
+                else if (i == 8)
+                {
+                    GraphColoringProblem graphColoringProblem = new GraphColoringProblem();
+                    graphColoringProblem.SolveGCP();
+                }
+                else if (i == 9)
+                {
+                    HamiltonianCycle hamiltonianCycle = new HamiltonianCycle();
+                    hamiltonianCycle.SolveHC();
                 }
                 else
                 {
