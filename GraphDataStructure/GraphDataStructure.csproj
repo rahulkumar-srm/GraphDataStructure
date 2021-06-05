@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\DijkstraAlgorithm.cs" />
     <Compile Include="Helper\Graph.cs" />
     <Compile Include="Helper\KruskalsAlgo.cs" />
     <Compile Include="Helper\PrimsAlgo.cs" />

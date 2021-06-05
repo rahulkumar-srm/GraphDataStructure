@@ -16,7 +16,7 @@ namespace GraphDataStructure.Helper
 
         int[] included = new int[size + 1];
 
-        int[] parent = new int[size] { -1, -1, -1, -1, -1, -1, -1, -1};
+        int[] parent = new int[size] { -1, -1, -1, -1, -1, -1, -1, -1 };
 
         int[,] track = new int[2, size - 2];
 
