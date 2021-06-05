@@ -15,6 +15,9 @@ namespace GraphDataStructure
                         Environment.NewLine + "2. Depth First Search" +
                         Environment.NewLine + "3. Prims Minimum Spanning Tree" +
                         Environment.NewLine + "4. Krushkals Minimum Spanning Tree" +
+                        Environment.NewLine + "5. Dijkstra Algorithm" + //Time Complexity(n^2)
+                        Environment.NewLine + "6. All Pairs Shortest Path - FloydWarshall" + //Time Complexity(n^3)
+                        Environment.NewLine + "7. Single Source Shortest Path - Bellman Ford" + //Best Case - Time Complexity(n^2), Worst Case - Time Complexity(n^3)
                         Environment.NewLine + "0. Exit"
                     );
 
@@ -61,6 +64,16 @@ namespace GraphDataStructure
                     dijkstraAlgorithm.DisplayShortestPath(dijkstraAlgorithm.ShortestPath(startVertex), startVertex);
 
                     Console.WriteLine();
+                }
+                else if (i == 6)
+                {
+                    FloydWarshall pairsShortestPath = new FloydWarshall();
+                    pairsShortestPath.ShortestPathPair();
+                }
+                else if (i == 7)
+                {
+                    BellmanFord bellmanFord = new BellmanFord();
+                    bellmanFord.ShortestPathPair();
                 }
                 else
                 {
