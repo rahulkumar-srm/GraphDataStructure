@@ -8,83 +8,132 @@ namespace GraphDataStructure.Helper
 {
     internal class DijkstraAlgorithm
     {
-        static int size = 7;
-
-        int[] selected = new int[size];
-        int[] cost = new int[size];
-
-        int[,] edges = {
-            { 0, 0, 0, 0, 0, 0, 0 },
-            { 0, 0, 50, 45, 10, 0, 0 },
-            { 0, 0, 0, 10, 15, 0, 0},
-            { 0, 0, 0, 0, 0, 30, 0 },
-            { 0, 10, 0, 0, 0, 15, 0 },
-            { 0, 0, 20, 35, 0, 0, 0 },
-            { 0, 0, 0, 0, 0, 3, 0 }
-        };
-
-        internal int[] ShortestPath(int startVertex)
+        public List<int> solve(int A, List<List<int>> B, int C)
         {
-            selected[startVertex] = 1;
+            List<int> dist = new List<int>();
+            bool[] visited = new bool[A];
+            MinHeapWithNode heap = new MinHeapWithNode();
+            Dictionary<int, Dictionary<int, int>> graph = new Dictionary<int, Dictionary<int, int>>();
 
-            for (int i = 1; i < size; i++)
+            for (int i = 0; i < A; i++)
+                dist.Add(int.MaxValue);
+
+            foreach (var edge in B)
             {
-                if (edges[startVertex, i] == 0 && i != startVertex)
-                {
-                    cost[i] = int.MaxValue;
-                }
-                else
-                {
-                    cost[i] = edges[startVertex, i];
-                }
+                if (!graph.ContainsKey(edge[0]))
+                    graph[edge[0]] = new Dictionary<int, int>();
+
+                graph[edge[0]][edge[1]] = edge[2];
+
+                if (!graph.ContainsKey(edge[1]))
+                    graph[edge[1]] = new Dictionary<int, int>();
+
+                graph[edge[1]][edge[0]] = edge[2];
             }
 
-            for (int i = 1; i < size - 1; i++)
-            {
-                int index = FindMin(startVertex);
-                selected[index] = 1;
+            dist[C] = 0;
+            heap.Insert(new Node(C, 0));
 
-                for (int j = 1; j < size; j++)
+            while (heap.Size() > 0)
+            {
+                Node node = heap.Delete();
+                if (!visited[node.vertex] && graph.ContainsKey(node.vertex))
                 {
-                    if (selected[j] == 0 && edges[index, j] != 0 && (cost[index] + edges[index, j]) < cost[j])
+                    visited[node.vertex] = true;
+                    foreach (var vertex in graph[node.vertex])
                     {
-                        cost[j] = cost[index] + edges[index, j];
+                        if (!visited[vertex.Key])
+                        {
+                            int temp = dist[node.vertex] + vertex.Value;
+                            if (temp < dist[vertex.Key])
+                            {
+                                dist[vertex.Key] = temp;
+                                heap.Insert(new Node(vertex.Key, temp));
+                            }
+                        }
                     }
                 }
             }
 
-            return cost;
-        }
-
-        internal void DisplayShortestPath(int[] path, int startIndex)
-        {
-            for (int i = 1; i < size; i++)
+            for (int i = 0; i < dist.Count; i++)
             {
-                if (i != startIndex)
-                {
-                    Console.WriteLine($"Shortest path from vertext {startIndex} to vertex {i} : {path[i]}");
-                }
-            }
-        }
-
-        private int FindMin(int startIndex)
-        {
-            int min = int.MaxValue;
-            int i = 1;
-            int j = i;
-
-            while (i < size)
-            {
-                if (i != startIndex && selected[i] == 0 && cost[i] < min)
-                {
-                    min = cost[i];
-                    j = i;
-                }
-
-                i++;
+                if (dist[i] == int.MaxValue)
+                    dist[i] = -1;
             }
 
-            return j;
+            return dist;
+        }
+    }
+
+    class MinHeapWithNode
+    {
+        public int top;
+        public List<Node> heap;
+
+        public MinHeapWithNode()
+        {
+            top = -1;
+            heap = new List<Node>();
+        }
+
+        public int Size()
+        {
+            return top + 1;
+        }
+
+        public void Insert(Node node)
+        {
+            int i = ++top;
+            heap.Add(null);
+
+            while (i > 0 && heap[(i - 1) / 2].weight > node.weight)
+            {
+                heap[i] = heap[(i - 1) / 2];
+                i = (i - 1) / 2;
+            }
+
+            heap[i] = node;
+        }
+
+        public Node Delete()
+        {
+            Node res = heap[0];
+            heap[0] = heap[top];
+            heap[top--] = null;
+
+            int i = 0, j = 2 * i + 1;
+
+            while (j <= top)
+            {
+                if (j < top && heap[j + 1].weight < heap[j].weight)
+                    j += 1;
+
+                if (heap[j].weight < heap[i].weight)
+                {
+                    Node temp = heap[j];
+                    heap[j] = heap[i];
+                    heap[i] = temp;
+
+                    i = j;
+                    j = 2 * i + 1;
+                }
+                else
+                    break;
+            }
+
+            return res;
+        }
+    }
+
+    class Node
+    {
+        public int vertex;
+        public int weight;
+
+        public Node(int vertex, int weight)
+        {
+            this.vertex = vertex;
+            this.weight = weight;
         }
     }
 }
